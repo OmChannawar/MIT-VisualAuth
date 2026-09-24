@@ -39,7 +39,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
@@ -344,9 +344,9 @@
                         <canvas id="mesh-canvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none transform scale-x-[-1] transition-transform"></canvas>
                         <canvas id="snapshot-canvas" class="hidden"></canvas>
 
-                        <!-- Dynamic Directional Arrow HUD Overlay -->
-                        <div id="direction-arrow-hud" class="absolute inset-0 pointer-events-none flex items-center justify-center z-20 hidden">
-                            <div id="arrow-icon-container" class="text-yellow-400 text-6xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] arrow-indicator">
+                        <!-- Dynamic Directional Arrow HUD Overlay (Positioned High Above Center) -->
+                        <div id="direction-arrow-hud" class="absolute inset-x-0 top-5 pointer-events-none flex items-center justify-center z-20 hidden">
+                            <div id="arrow-icon-container" class="text-amber-300 text-5xl bg-slate-950/80 border border-amber-400/50 px-5 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md arrow-indicator">
                                 <i class="fa-solid fa-arrow-left"></i>
                             </div>
                         </div>
@@ -424,13 +424,14 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Step Navigation Buttons -->
+                    <!-- Bottom Step Navigation Buttons (Larger Prominent Button) -->
                     <div class="pt-4 border-t border-slate-200 mt-4 flex items-center justify-between gap-3">
-                        <button onclick="goToStep(1)" class="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs transition">
+                        <button onclick="goToStep(1)" class="px-4 py-3.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs transition">
                             <i class="fa-solid fa-arrow-left mr-1"></i> Back
                         </button>
-                        <button id="btn-to-step3" onclick="goToStep(3)" disabled class="flex-1 px-4 py-2.5 bg-cyan-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-cyan-700 text-white font-extrabold rounded-xl text-xs shadow-md transition text-center">
-                            Verify Dataset Samples <i class="fa-solid fa-arrow-right ml-1"></i>
+                        <button id="btn-to-step3" onclick="goToStep(3)" disabled class="flex-1 px-5 py-3.5 bg-cyan-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-cyan-700 text-white font-extrabold rounded-xl text-sm shadow-lg shadow-cyan-600/20 transition text-center flex items-center justify-center gap-2">
+                            <span>Verify Dataset Samples</span>
+                            <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
@@ -759,7 +760,6 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
         });
 
         // --- REAL-TIME PRN REGISTRATION STATUS CHECK ---
-        let prnCheckTimeout = null;
         async function checkPRNRegistration(prn) {
             if (!prn || prn.length < 3) return;
             const spinner = document.getElementById('prn-check-spinner');
@@ -790,13 +790,13 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             }
         }
 
-        // --- 8 POSE TARGETS SPECIFICATION ---
+        // --- RE-CALIBRATED 8 POSE TARGETS SPECIFICATION (DISTINCT ~20° AND ~45° ANGLES) ---
         const POSE_STEPS = [
             { id: 1, name: "Direct Frontal", title: "0° (Center) - Look straight into camera", icon: "fa-user", type: "frontal", arrow: null },
-            { id: 2, name: "Slight Left Turn", title: "Yaw -15° to -20° - Turn head slightly to your Left", icon: "fa-arrow-left", type: "left_slight", arrow: "fa-arrow-left" },
-            { id: 3, name: "Moderate Left Turn", title: "Yaw -30° - Turn head further to your Left", icon: "fa-angles-left", type: "left_moderate", arrow: "fa-angles-left" },
-            { id: 4, name: "Slight Right Turn", title: "Yaw +15° to +20° - Turn head slightly to your Right", icon: "fa-arrow-right", type: "right_slight", arrow: "fa-arrow-right" },
-            { id: 5, name: "Moderate Right Turn", title: "Yaw +30° - Turn head further to your Right", icon: "fa-angles-right", type: "right_moderate", arrow: "fa-angles-right" },
+            { id: 2, name: "Slight Left Turn", title: "Yaw ~20° - Turn head slightly to your Left", icon: "fa-arrow-left", type: "left_slight", arrow: "fa-arrow-left" },
+            { id: 3, name: "Moderate Left Turn", title: "Yaw ~45° - Turn head further to your Left", icon: "fa-angles-left", type: "left_moderate", arrow: "fa-angles-left" },
+            { id: 4, name: "Slight Right Turn", title: "Yaw ~20° - Turn head slightly to your Right", icon: "fa-arrow-right", type: "right_slight", arrow: "fa-arrow-right" },
+            { id: 5, name: "Moderate Right Turn", title: "Yaw ~45° - Turn head further to your Right", icon: "fa-angles-right", type: "right_moderate", arrow: "fa-angles-right" },
             { id: 6, name: "Chin Up (Look Up)", title: "Pitch +15° - Tilt chin / head Upward", icon: "fa-arrow-up", type: "chin_up", arrow: "fa-arrow-up" },
             { id: 7, name: "Chin Down (Look Down)", title: "Pitch -15° - Tilt chin / head Downward", icon: "fa-arrow-down", type: "chin_down", arrow: "fa-arrow-down" },
             { id: 8, name: "Smile / Eye Blink", title: "Frontal (0°) - Smile naturally or blink eyes", icon: "fa-face-smile-wink", type: "smile_blink", arrow: "fa-face-smile" }
@@ -852,7 +852,6 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`step-section-${stepNum}`).classList.remove('hidden');
 
-            // UPDATE STEP NAVIGATION STYLES WITH FIXED CONTRAST COLORS
             for (let i = 1; i <= 4; i++) {
                 const navItem = document.getElementById(`step-nav-${i}`);
                 if (!navItem) continue;
@@ -1028,7 +1027,6 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             }
         }
 
-        // Real-Time FaceMesh Results Analysis & Visual Mesh Renderer
         function onFaceMeshResults(results) {
             const badgeText = document.getElementById('ai-status-text');
             const ovalGuide = document.getElementById('oval-guide');
@@ -1051,7 +1049,6 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
 
             const landmarks = results.multiFaceLandmarks[0];
 
-            // Render subtle cyan AI tracking points over face landmarks
             ctx.fillStyle = "rgba(6, 182, 212, 0.7)";
             const keyPoints = [1, 33, 263, 61, 291, 199, 10, 152, 234, 454];
             keyPoints.forEach(ptIdx => {
@@ -1101,7 +1098,6 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             const mouthWidth = Math.hypot(lipRight.x - lipLeft.x, lipRight.y - lipLeft.y);
             const smileRatio = mouthWidth / cheekWidth;
 
-            // Eye Aspect Ratio (EAR) for Blink
             const eyeTop = lm[159];
             const eyeBottom = lm[145];
             const eyeLeft = lm[33];
@@ -1111,26 +1107,26 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             return { yawOffset, pitchOffset, roll, smileRatio, ear };
         }
 
+        // --- UPDATED POSE MATCH THRESHOLDS FOR DISTINCT ~20° AND ~45° TURNS ---
         function checkPoseMatch(targetType, m) {
             const yVal = isCameraMirrored ? m.yawOffset : -m.yawOffset;
 
             switch (targetType) {
                 case 'frontal':
                     return Math.abs(yVal) < 0.08 && Math.abs(m.pitchOffset - 0.02) < 0.10;
-                case 'left_slight':
-                    return yVal > 0.05 && yVal <= 0.11;
-                case 'left_moderate':
-                    return yVal > 0.11;
-                case 'right_slight':
-                    return yVal < -0.05 && yVal >= -0.11;
-                case 'right_moderate':
-                    return yVal < -0.11;
+                case 'left_slight': // Yaw ~20°
+                    return yVal >= 0.10 && yVal <= 0.22;
+                case 'left_moderate': // Yaw ~45°
+                    return yVal > 0.22;
+                case 'right_slight': // Yaw ~20°
+                    return yVal <= -0.10 && yVal >= -0.22;
+                case 'right_moderate': // Yaw ~45°
+                    return yVal < -0.22;
                 case 'chin_up':
                     return m.pitchOffset < -0.05;
                 case 'chin_down':
                     return m.pitchOffset > 0.08;
                 case 'smile_blink':
-                    // Triggers either on Smile OR Blink (EAR < 0.18)
                     return m.smileRatio > 0.36 || m.ear < 0.18;
                 default:
                     return false;
@@ -1144,13 +1140,13 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
                 case 'frontal':
                     return Math.abs(yVal) >= 0.08 ? "Center your head in oval" : "Look straight into camera";
                 case 'left_slight':
-                    return yVal <= 0.05 ? "Turn head slightly LEFT (-15°)" : "Hold slight left angle...";
+                    return yVal < 0.10 ? "Turn head slightly LEFT (~20°)" : "Hold 20° left angle...";
                 case 'left_moderate':
-                    return yVal <= 0.11 ? "Turn head further LEFT (-30°)" : "Hold moderate left angle...";
+                    return yVal <= 0.22 ? "Turn head further LEFT (~45°)" : "Hold 45° left angle...";
                 case 'right_slight':
-                    return yVal >= -0.05 ? "Turn head slightly RIGHT (+15°)" : "Hold slight right angle...";
+                    return yVal > -0.10 ? "Turn head slightly RIGHT (~20°)" : "Hold 20° right angle...";
                 case 'right_moderate':
-                    return yVal >= -0.11 ? "Turn head further RIGHT (+30°)" : "Hold moderate right angle...";
+                    return yVal >= -0.22 ? "Turn head further RIGHT (~45°)" : "Hold 45° right angle...";
                 case 'chin_up':
                     return m.pitchOffset >= -0.05 ? "Tilt head UPWARDS (+15°)" : "Hold chin up position...";
                 case 'chin_down':
@@ -1200,7 +1196,7 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             if (fill) fill.style.width = '0%';
         }
 
-        // Helper: Canvas Image Compression (Downscales to 640x480 @ 0.72 quality ~25KB per image)
+        // Helper: Canvas Image Compression
         async function compressBase64Image(base64Str, maxWidth = 640, maxHeight = 480, quality = 0.72) {
             return new Promise((resolve) => {
                 const img = new Image();
@@ -1392,7 +1388,6 @@ function getOrCreateSpreadsheet(sheetName, parentFolder) {
             progressContainer.classList.remove('hidden');
 
             try {
-                // Step A: Client-Side Fast Compression (Reduces ~4MB to ~200KB for instant Drive upload)
                 progressText.innerText = "Optimizing dataset images for Google Drive...";
                 progressBar.style.width = "25%";
                 percentageText.innerText = "25%";
