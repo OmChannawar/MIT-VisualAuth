@@ -32,7 +32,7 @@ The portal automatically validates institutional student metadata, compresses bi
 - **🔍 Real-Time Duplicate PRN Check:** Checks the central Google Sheet database on PRN input blur to detect existing registrations.
 - **🗜️ Client-Side Fast Compression:** Compresses image datasets from ~4MB down to ~200KB before transmission to prevent upload timeouts.
 - **🔒 Data Ethics & Consent Disclaimer:** Integrated privacy agreement ensuring compliance with academic research standards.
-- **🛡️ Stealth Admin Portal:** PIN-protected modal (`PIN: 9874`) to configure backend web app URLs and manage script settings on the fly.
+- **🛡️ Stealth Admin Portal:** PIN-protected modal to configure backend web app URLs and manage script settings on the fly.
 - **📁 Structured Directory & File Naming:**
   - Drive Folder: `/MIT_VisionAuth_Datasets/{PRN}/`
   - Image Files: `{PRN}_angle_1.jpg` through `{PRN}_angle_8.jpg`
