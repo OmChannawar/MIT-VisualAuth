@@ -32,10 +32,6 @@ The portal automatically validates institutional student metadata, compresses bi
 - **🔍 Real-Time Duplicate PRN Check:** Checks the central Google Sheet database on PRN input blur to detect existing registrations.
 - **🗜️ Client-Side Fast Compression:** Compresses image datasets from ~4MB down to ~200KB before transmission to prevent upload timeouts.
 - **🔒 Data Ethics & Consent Disclaimer:** Integrated privacy agreement ensuring compliance with academic research standards.
-- **🛡️ Stealth Admin Portal:** PIN-protected modal to configure backend web app URLs and manage script settings on the fly.
-- **📁 Structured Directory & File Naming:**
-  - Drive Folder: `/MIT_VisionAuth_Datasets/{PRN}/`
-  - Image Files: `{PRN}_angle_1.jpg` through `{PRN}_angle_8.jpg`
 
 ---
 
@@ -44,7 +40,7 @@ The portal automatically validates institutional student metadata, compresses bi
 - **Frontend:** HTML5, CSS3 (Tailwind CSS CDN), Vanilla Modern JavaScript (ES6+).
 - **Computer Vision Engine:** Google MediaPipe FaceMesh & Camera Utils (`@mediapipe/face_mesh`).
 - **Archive Generation:** JSZip (client-side fallback ZIP generation).
-- **Backend / Ingestion API:** Google Apps Script (`Code.gs`) writing to Google Drive API & Google Sheets API.
+- **Backend / Ingestion API:** Google Apps Script writing to Google Drive API & Google Sheets API.
 
 ---
 

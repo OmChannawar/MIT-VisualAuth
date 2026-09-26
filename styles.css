@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+}
+
+.code-font {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Vertical Face Framing Oval Guide */
+.oval-overlay {
+    box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.72);
+    border: 4px dashed #0284c7;
+    border-radius: 50%;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, border-style 0.25s ease;
+}
+
+.oval-overlay.matched-pose {
+    border-style: solid;
+    border-color: #059669;
+    box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.78), 0 0 35px rgba(16, 185, 129, 0.8);
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0284c7;
+}
+
+/* Camera Flash and HUD Animations */
+@keyframes flashEffect {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.shutter-flash {
+    animation: flashEffect 0.35s ease-out forwards;
+}
+
+@keyframes pulseArrow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+.arrow-indicator {
+    animation: pulseArrow 1s infinite ease-in-out;
+}
